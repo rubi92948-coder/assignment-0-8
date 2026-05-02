@@ -1,0 +1,26 @@
+[
+  { "id": 1, 
+  "name": "Self Development" },
+  { "id": 2, 
+  "name": "Finance" },
+  { "id": 3, 
+  "name": "Fiction" },
+  { "id": 4, 
+  "name": "Programming" },
+  { "id": 5, 
+  "name": "Productivity" },
+  { "id": 6, 
+  "name": "Fantasy" },
+  { "id": 7, 
+  "name": "Business" },
+  { "id": 8, 
+  "name": "History" },
+  { "id": 9, 
+  "name": "Science" },
+  { "id": 10,
+   "name": "Technology" },
+  { "id": 11, "name": 
+  "Education" },
+  { "id": 12, "name":
+   "Motivation" }
+]
