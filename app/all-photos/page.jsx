@@ -1,49 +1,29 @@
-export default async function Page() {
-  const res = await fetch("http://localhost:3000/data.json", {
-    cache: "no-store",
-  });
+import Category from "@/components/Category";
+import PhotoCard from "@/components/PhotoCard";
 
-  const photos = await res.json();
+const AllPhotosPage = async ({searchParams}) => {
+    const {category} = await searchParams;
+    console.log(category)
+    const res = await fetch('https://assignment-0-8-ne31.vercel.app/data.json')
+    const photos = await res.json()
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>
-        All Photos
-      </h1>
+    const filteredPhotos = category ? photos.filter(photo => photo.category.toLowerCase() == category.toLowerCase()) : photos
 
-      <p>Total: {photos.length}</p>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "20px",
-          marginTop: "20px",
-        }}
-      >
-        {photos.map((photo) => (
-          <div
-            key={photo.id}
-            style={{
-              border: "1px solid #ddd",
-              padding: "10px",
-              borderRadius: "10px",
-            }}
-          >
-            <img
-              src={photo.image_url}
-              alt={photo.title}
-              style={{ width: "100%", height: "150px", objectFit: "cover" }}
-            />
+    return (
+        <div>
 
-            <h3 style={{ fontWeight: "bold", marginTop: "10px" }}>
-              {photo.title}
-            </h3>
+            <h1 className="text-2xl font-bold m-4">All Photos</h1>
 
-            <p style={{ color: "purple" }}>{photo.category}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+            <Category/>
+
+            <div className="grid grid-cols-4 gap-5">
+                {filteredPhotos.map(photo=> <PhotoCard key={photo.id} photo={photo}/>)}
+            </div>
+
+            
+        </div>
+    );
+};
+
+export default AllPhotosPage;

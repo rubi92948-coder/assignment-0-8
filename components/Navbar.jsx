@@ -32,7 +32,7 @@ export default function Navbar() {
             Home
           </Link>        
 
-          <Link href="/all-photos/page.jsx" style={{ color: "white" }}>
+          <Link href="/all-photos" style={{ color: "white" }}>
             All Books
           </Link>
 
