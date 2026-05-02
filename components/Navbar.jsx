@@ -20,20 +20,36 @@ export default function Navbar() {
           margin: "0 auto",
         }}
       >
+        {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <Image src="/logo.png" alt="logo" width={32} height={32} />
           <h1 style={{ fontWeight: "bold" }}>BookApp</h1>
         </div>
 
+        {/* Center Links */}
         <div style={{ display: "flex", gap: "20px", fontWeight: "bold" }}>
-          <Link href="/" style={{ color: "white" }}>Home</Link>
-          <Link href="/books" style={{ color: "white" }}>All Books</Link>
-          <Link href="/profile" style={{ color: "white" }}>My Profile</Link>
+          <Link href="/" style={{ color: "white" }}>
+            Home
+          </Link>        
+
+          <Link href="/all-photos/page.jsx" style={{ color: "white" }}>
+            All Books
+          </Link>
+
+          <Link href="/profile" style={{ color: "white" }}>
+            My Profile
+          </Link>
         </div>
 
+        {/* Auth Links */}
         <div style={{ display: "flex", gap: "10px", fontWeight: "bold" }}>
-          <Link href="/login" style={{ color: "white" }}>Login</Link>
-          <Link href="/register" style={{ color: "white" }}>Register</Link>
+          <Link href="/login" style={{ color: "white" }}>
+            Login
+          </Link>
+
+          <Link href="/register" style={{ color: "white" }}>
+            Register
+          </Link>
         </div>
       </div>
     </div>
