@@ -28,27 +28,27 @@ export default function Navbar() {
 
         {/* Center Links */}
         <div style={{ display: "flex", gap: "20px", fontWeight: "bold" }}>
-          <Link href="/" style={{ color: "white" }}>
+          <Link href="/" style={{ color: "white", textDecoration: "none" }}>
             Home
-          </Link>        
+          </Link>
 
-          <Link href="/all-photos" style={{ color: "white" }}>
+          <Link href="/all-photos" style={{ color: "white", textDecoration: "none" }}>
             All Books
           </Link>
 
-          <Link href="/profile" style={{ color: "white" }}>
+          <Link href="/profile" style={{ color: "white", textDecoration: "none" }}>
             My Profile
           </Link>
         </div>
 
         {/* Auth Links */}
         <div style={{ display: "flex", gap: "10px", fontWeight: "bold" }}>
-          <Link href="/login" style={{ color: "white" }}>
-            Login
+          <Link href="/signup" style={{ color: "white", textDecoration: "none" }}>
+            SignUp
           </Link>
 
-          <Link href="/register" style={{ color: "white" }}>
-            Register
+          <Link href="/signin" style={{ color: "white", textDecoration: "none" }}>
+            SignIn
           </Link>
         </div>
       </div>
