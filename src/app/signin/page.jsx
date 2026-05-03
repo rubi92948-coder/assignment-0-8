@@ -11,53 +11,37 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { GrGoogle } from "react-icons/gr";
 
-export default function SignUpPage() {
-
-  const router = useRouter();
-
+export default function SignInPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
-    const image = e.target.image.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    const { data, error } = await authClient.signUp.email({
-      name,
+    const { data, error } = await authClient.signIn.email({
       email,
       password,
-      image,
+      callbackURL: "/",
     });
 
     console.log({ data, error });
-
-    if (!error) {
-      router.push('/');
-    }
   };
 
+  const handlGoogleSignIn = async () => {
+    await authClient.signIn.social({
+        provider: 'google'
+    })
+  }
+
+
+
   return (
-    <Card className="border mx-auto w-125 py-10 mt-5 bg-purple-50 border-purple-200 shadow-md">
-      <h1 className="text-center text-2xl font-bold text-purple-700">
-        Sign Up
-      </h1>
+    <Card className="border mx-auto w-125 py-10 mt-5">
+      <h1 className="text-center text-2xl font-bold">Sign In</h1>
 
       <Form className="flex w-96 mx-auto flex-col gap-4" onSubmit={onSubmit}>
-        <TextField isRequired name="name" type="text">
-          <Label className="text-purple-700">Name</Label>
-          <Input className="focus:ring-purple-400" placeholder="Enter your name" />
-          <FieldError />
-        </TextField>
-
-        <TextField isRequired name="image" type="text">
-          <Label className="text-purple-700">Image URL</Label>
-          <Input className="focus:ring-purple-400" placeholder="Image URL" />
-          <FieldError />
-        </TextField>
-
         <TextField
           isRequired
           name="email"
@@ -66,11 +50,12 @@ export default function SignUpPage() {
             if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
               return "Please enter a valid email address";
             }
+
             return null;
           }}
         >
-          <Label className="text-purple-700">Email</Label>
-          <Input className="focus:ring-purple-400" placeholder="john@example.com" />
+          <Label>Email</Label>
+          <Input placeholder="john@example.com" />
           <FieldError />
         </TextField>
 
@@ -89,28 +74,32 @@ export default function SignUpPage() {
             if (!/[0-9]/.test(value)) {
               return "Password must contain at least one number";
             }
+
             return null;
           }}
         >
-          <Label className="text-purple-700">Password</Label>
-          <Input className="focus:ring-purple-400" placeholder="Enter your password" />
-          <Description className="text-purple-500">
+          <Label>Password</Label>
+          <Input placeholder="Enter your password" />
+          <Description>
             Must be at least 8 characters with 1 uppercase and 1 number
           </Description>
           <FieldError />
         </TextField>
 
         <div className="flex gap-2">
-          <Button className="bg-purple-600 text-white hover:bg-purple-700" type="submit">
+          <Button type="submit">
             <Check />
             Submit
           </Button>
-
-          <Button type="reset" variant="secondary" className="border-purple-300 text-purple-700">
+          <Button type="reset" variant="secondary">
             Reset
           </Button>
         </div>
       </Form>
+
+      <p className="text-center">Or</p>
+
+      <Button onClick={handlGoogleSignIn} variant="outline" className={'w-full'}><GrGoogle/> Sign In With Google</Button>
     </Card>
   );
 }
