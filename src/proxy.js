@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
-import { auth } from "./lib/auth";
-import { headers } from "next/headers";
 
-// This function can be marked `async` if using `await` inside
-export async function proxy(request) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export function proxy(request) {
+  const token = request.cookies.get("token")?.value;
 
-  if (!session) {
-   return NextResponse.redirect(new URL('/signin', request.url))
+  const path = request.nextUrl.pathname;
+
+  const isProtected =
+    path.startsWith("/profile") ||
+    path.startsWith("/all-photos");
+
+  if (isProtected && !token) {
+    return NextResponse.redirect(new URL("/signin", request.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/profile", "/all-photos/:path*"],
+  matcher: ["/profile/:path*", "/all-photos/:path*"],
 };
