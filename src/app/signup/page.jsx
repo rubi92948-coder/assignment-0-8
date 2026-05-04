@@ -13,9 +13,11 @@ import {
   TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -26,8 +28,6 @@ export default function SignUpPage() {
     const email = (formData.get("email") || "").toString().trim();
     const password = (formData.get("password") || "").toString();
 
-    console.log("SUBMIT DATA:", { name, email, password });
-
     try {
       const { data, error } = await authClient.signUp.email({
         name: name || undefined,
@@ -35,16 +35,11 @@ export default function SignUpPage() {
         password,
       });
 
-      console.log("AUTH RESPONSE:", { data, error });
-
-      if (error) {
-        console.log("SIGNUP ERROR DETAILS:", JSON.stringify(error, null, 2));
-        return;
-      }
+      if (error) return;
 
       router.push("/");
     } catch (err) {
-      console.log("REQUEST FAILED:", err);
+      console.log(err);
     }
   };
 
@@ -70,10 +65,36 @@ export default function SignUpPage() {
           <FieldError />
         </TextField>
 
-        {/* PASSWORD */}
+        {/* PASSWORD WITH TOGGLE */}
         <TextField isRequired>
           <Label className="text-purple-700">Password</Label>
-          <Input name="password" type="password" placeholder="Enter password" />
+
+          <div style={{ position: "relative" }}>
+            <Input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter password"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                color: "#6b21a8",
+                fontSize: "12px",
+                fontWeight: "bold",
+              }}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
 
           <Description className="text-purple-500">
             Must be 8+ characters with uppercase + number

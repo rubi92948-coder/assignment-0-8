@@ -1,4 +1,5 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import {
@@ -12,8 +13,11 @@ import {
   TextField,
 } from "@heroui/react";
 import { GrGoogle } from "react-icons/gr";
+import { useState } from "react";
 
 export default function SignInPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,79 +31,115 @@ export default function SignInPage() {
     });
 
     console.log({ data, error });
+
+    localStorage.setItem("token", "user-token");
+    window.dispatchEvent(new Event("storage"));
   };
 
-  const handlGoogleSignIn = async () => {
+  const handleGoogleSignIn = async () => {
     await authClient.signIn.social({
-        provider: 'google'
-    })
-  }
+      provider: "google",
+    });
 
-
+    localStorage.setItem("token", "google-user");
+    window.dispatchEvent(new Event("storage"));
+  };
 
   return (
-    <Card className="border mx-auto w-125 py-10 mt-5">
-      <h1 className="text-center text-2xl font-bold">Sign In</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-purple-100 to-purple-200 px-4">
 
-      <Form className="flex w-96 mx-auto flex-col gap-4" onSubmit={onSubmit}>
-        <TextField
-          isRequired
-          name="email"
-          type="email"
-          validate={(value) => {
-            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-              return "Please enter a valid email address";
-            }
+      <Card className="w-full max-w-md py-10 rounded-2xl border border-purple-200 bg-white/70 backdrop-blur-xl shadow-md">
 
-            return null;
-          }}
-        >
-          <Label>Email</Label>
-          <Input placeholder="john@example.com" />
-          <FieldError />
-        </TextField>
+        <h1 className="text-center text-3xl font-bold text-purple-700 mb-6">
+          Welcome Back
+        </h1>
 
-        <TextField
-          isRequired
-          minLength={8}
-          name="password"
-          type="password"
-          validate={(value) => {
-            if (value.length < 8) {
-              return "Password must be at least 8 characters";
-            }
-            if (!/[A-Z]/.test(value)) {
-              return "Password must contain at least one uppercase letter";
-            }
-            if (!/[0-9]/.test(value)) {
-              return "Password must contain at least one number";
-            }
+        <Form className="flex w-full px-6 flex-col gap-4" onSubmit={onSubmit}>
 
-            return null;
-          }}
-        >
-          <Label>Password</Label>
-          <Input placeholder="Enter your password" />
-          <Description>
-            Must be at least 8 characters with 1 uppercase and 1 number
-          </Description>
-          <FieldError />
-        </TextField>
+          {/* EMAIL */}
+          <TextField isRequired>
+            <Label className="text-purple-700">Email</Label>
+            <Input
+              name="email"
+              type="email"
+              placeholder="john@example.com"
+              className="bg-white/80 border border-purple-200 focus:border-purple-400"
+            />
+            <FieldError />
+          </TextField>
 
-        <div className="flex gap-2">
-          <Button type="submit">
-            <Check />
-            Submit
-          </Button>
-          <Button type="reset" variant="secondary">
-            Reset
+          {/* PASSWORD */}
+          <TextField isRequired>
+            <Label className="text-purple-700">Password</Label>
+
+            <div style={{ position: "relative" }}>
+              <Input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="bg-white/80 border border-purple-200 focus:border-purple-400"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "#6b21a8",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                }}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            <Description className="text-purple-500">
+              Enter your account password
+            </Description>
+
+            <FieldError />
+          </TextField>
+
+          {/* BUTTONS */}
+          <div className="flex gap-2 mt-2">
+            <Button
+              type="submit"
+              className="bg-purple-600 hover:bg-purple-700 text-white w-full"
+            >
+              <Check /> Sign In
+            </Button>
+
+            <Button
+              type="reset"
+              variant="secondary"
+              className="w-full border border-purple-300 text-purple-700"
+            >
+              Reset
+            </Button>
+          </div>
+        </Form>
+
+        {/* OR */}
+        <p className="text-center text-purple-400 my-4">OR</p>
+
+        {/* GOOGLE */}
+        <div className="px-6">
+          <Button
+            onClick={handleGoogleSignIn}
+            className="w-full bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center gap-2"
+          >
+            <GrGoogle /> Sign In with Google
           </Button>
         </div>
-      </Form>
 
-      <p className="text-center">Or</p>
-
-      <Button onClick={handlGoogleSignIn} variant="outline" className={'w-full'}><GrGoogle/> Sign In With Google</Button>
-    </Card>
+      </Card>
+    </div>
   );
 }
