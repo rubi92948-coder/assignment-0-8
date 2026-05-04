@@ -16,7 +16,8 @@ export default function Navbar() {
 
     let userData = null;
     try {
-      userData = JSON.parse(localStorage.getItem("user"));
+      const storedUser = localStorage.getItem("user");
+      userData = storedUser ? JSON.parse(storedUser) : null;
     } catch {
       userData = null;
     }
@@ -48,6 +49,13 @@ export default function Navbar() {
     background: pathname === path ? "rgba(0,0,0,0.08)" : "transparent",
     whiteSpace: "nowrap",
   });
+
+  // 👉 NAME FIX LOGIC (important part)
+  const displayName =
+    user?.name?.trim() ||
+    user?.fullName?.trim() ||
+    user?.email?.split("@")[0] ||
+    "User";
 
   return (
     <div
@@ -120,10 +128,15 @@ export default function Navbar() {
                   <Avatar.Image alt="user" src={user.image} />
                 ) : (
                   <Avatar.Fallback>
-                    {user?.email?.charAt(0)?.toUpperCase() || "U"}
+                    {displayName.charAt(0).toUpperCase()}
                   </Avatar.Fallback>
                 )}
               </Avatar>
+
+              {/* ✅ FINAL NAME DISPLAY */}
+              <span style={{ color: "#ffffff", fontWeight: "bold" }}>
+                {displayName}
+              </span>
 
               <button
                 onClick={handleLogOut}
@@ -144,7 +157,7 @@ export default function Navbar() {
                   (e.target.style.background = "transparent")
                 }
               >
-                Logout
+                SignOut
               </button>
             </>
           ) : (

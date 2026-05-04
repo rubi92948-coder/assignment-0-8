@@ -22,6 +22,13 @@ export default async function FeaturedBooks() {
               className="w-full h-48 object-cover rounded"
             />
             <h3 className="mt-2 font-semibold">{book.title}</h3>
+
+            {/* ✅ ADDED BUTTON ONLY */}
+            <button
+              className="mt-3 w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
+            >
+              View Details
+            </button>
           </div>
         ))}
       </div>

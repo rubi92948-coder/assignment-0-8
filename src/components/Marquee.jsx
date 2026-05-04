@@ -10,7 +10,12 @@ export default function Marquee() {
 
         <span className="flex items-center gap-2 whitespace-nowrap">
           <BookOpen size={16} />
-          Welcome to BookApp • Discover Thousands of Books • Read Anytime, Anywhere • Sign in to Unlock Full Access • Happy Reading ✨
+
+          {/* ✅ NEW ADDED TEXT */}
+          New Arrivals • Big Collection Added Today • Flat 20% Discount on Selected Books •
+          Welcome to BookApp • Discover Thousands of Books • Read Anytime, Anywhere •
+          Sign in to Unlock Full Access • Happy Reading ✨
+
           <BookOpen size={16} />
         </span>
 
