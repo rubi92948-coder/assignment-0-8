@@ -2,14 +2,11 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
-// MongoDB connection
 const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("bookapp");
 
 export const auth = betterAuth({
-  database: mongodbAdapter(db, {
-    client,
-  }),
+  database: mongodbAdapter(db, { client }),
 
   emailAndPassword: {
     enabled: true,
@@ -22,9 +19,8 @@ export const auth = betterAuth({
     },
   },
 
-  // ✅ IMPORTANT FIX (CORS / INVALID ORIGIN solve)
+  // ✅ production safe origins
   trustedOrigins: [
-    "http://localhost:3000",
-    "https://assignment-0-8-ne31-hp6x6dx35-rubi92948-coders-projects.vercel.app",
+    process.env.NEXT_PUBLIC_APP_URL,
   ],
 });
