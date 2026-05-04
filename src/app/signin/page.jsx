@@ -32,16 +32,37 @@ export default function SignInPage() {
 
     console.log({ data, error });
 
+    // ✅ FIX: store user for navbar avatar
     localStorage.setItem("token", "user-token");
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        email: data?.user?.email || email,
+        image: data?.user?.image || null,
+      })
+    );
+
     window.dispatchEvent(new Event("storage"));
   };
 
   const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({
+    const res = await authClient.signIn.social({
       provider: "google",
     });
 
+    console.log(res);
+
     localStorage.setItem("token", "google-user");
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        email: res?.user?.email,
+        image: res?.user?.image,
+      })
+    );
+
     window.dispatchEvent(new Event("storage"));
   };
 
