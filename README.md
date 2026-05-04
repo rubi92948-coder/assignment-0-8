@@ -6,8 +6,7 @@ This is a simple online book borrowing web app where users can explore books, vi
 
 ## 🌐 Live Site
 
-https://assignment-0-8-ne31-qn98ujvw8-rubi92948-coders-projects.vercel.app/
-
+https://assignment-0-8-ne31.vercel.app
 ## 💻 GitHub Repo
 
 https://github.com/rubi92948-coder/assignment-0-8
