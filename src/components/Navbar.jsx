@@ -28,10 +28,7 @@ export default function Navbar() {
   useEffect(() => {
     checkAuth();
     window.addEventListener("storage", checkAuth);
-
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-    };
+    return () => window.removeEventListener("storage", checkAuth);
   }, []);
 
   const handleLogOut = () => {
@@ -49,13 +46,14 @@ export default function Navbar() {
     borderRadius: "6px",
     transition: "0.3s",
     background: pathname === path ? "rgba(0,0,0,0.08)" : "transparent",
+    whiteSpace: "nowrap",
   });
 
   return (
     <div
       style={{
         background: "linear-gradient(to right, #ffffff, #5b21b6)",
-        padding: "12px 20px",
+        padding: "12px 16px",
       }}
     >
       <div
@@ -65,10 +63,19 @@ export default function Navbar() {
           alignItems: "center",
           maxWidth: "1200px",
           margin: "0 auto",
+          flexWrap: "wrap",
+          gap: "12px",
         }}
       >
         {/* LOGO */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            flex: "1 1 150px",
+          }}
+        >
           <Image src="/logo.png" alt="logo" width={32} height={32} />
           <h1 style={{ fontWeight: "bold", color: "#000000" }}>
             BookApp
@@ -76,23 +83,41 @@ export default function Navbar() {
         </div>
 
         {/* LINKS */}
-        <div style={{ display: "flex", gap: "20px", fontWeight: "bold" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            fontWeight: "bold",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            flex: "2 1 300px",
+          }}
+        >
           <Link href="/" style={getLinkStyle("/")}>Home</Link>
-          <Link href="/all-photos" style={getLinkStyle("/all-photos")}>All Books</Link>
-          <Link href="/profile" style={getLinkStyle("/profile")}>My Profile</Link>
+          <Link href="/all-photos" style={getLinkStyle("/all-photos")}>
+            All Books
+          </Link>
+          <Link href="/profile" style={getLinkStyle("/profile")}>
+            My Profile
+          </Link>
         </div>
 
         {/* AUTH */}
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "flex-end",
+            flex: "1 1 150px",
+          }}
+        >
           {isLoggedIn ? (
             <>
-              {/* HEROUI AVATAR ADDED */}
               <Avatar>
                 {user?.image ? (
-                  <Avatar.Image
-                    alt="user"
-                    src={user.image}
-                  />
+                  <Avatar.Image alt="user" src={user.image} />
                 ) : (
                   <Avatar.Fallback>
                     {user?.email?.charAt(0)?.toUpperCase() || "U"}
@@ -100,7 +125,6 @@ export default function Navbar() {
                 )}
               </Avatar>
 
-              {/* LOGOUT */}
               <button
                 onClick={handleLogOut}
                 style={{
@@ -110,8 +134,8 @@ export default function Navbar() {
                   cursor: "pointer",
                   padding: "6px 10px",
                   borderRadius: "6px",
-                  transition: "0.3s",
                   fontWeight: "bold",
+                  whiteSpace: "nowrap",
                 }}
                 onMouseOver={(e) =>
                   (e.target.style.background = "rgba(255,255,255,0.25)")
@@ -128,7 +152,6 @@ export default function Navbar() {
               <Link href="/signup" style={getLinkStyle("/signup")}>
                 SignUp
               </Link>
-
               <Link href="/signin" style={getLinkStyle("/signin")}>
                 SignIn
               </Link>

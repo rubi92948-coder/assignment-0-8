@@ -30,9 +30,15 @@ export default function SignInPage() {
       callbackURL: "/",
     });
 
-    console.log({ data, error });
+    if (error) {
+      console.log(error);
+      return;
+    }
 
-    // ✅ FIX: store user for navbar avatar
+    // ✅ IMPORTANT: cookie for proxy protection
+    document.cookie = `token=user-token; path=/; max-age=86400`;
+
+    // ✅ navbar + UI state
     localStorage.setItem("token", "user-token");
 
     localStorage.setItem(
@@ -43,7 +49,11 @@ export default function SignInPage() {
       })
     );
 
+    // ✅ navbar update trigger
     window.dispatchEvent(new Event("storage"));
+
+    // ✅ redirect
+    window.location.href = "/";
   };
 
   const handleGoogleSignIn = async () => {
@@ -51,19 +61,21 @@ export default function SignInPage() {
       provider: "google",
     });
 
-    console.log(res);
+    document.cookie = "token=user-token; path=/; max-age=86400";
 
     localStorage.setItem("token", "google-user");
 
     localStorage.setItem(
       "user",
       JSON.stringify({
-        email: res?.user?.email,
-        image: res?.user?.image,
+        email: res?.user?.email || res?.data?.user?.email,
+        image: res?.user?.image || null,
       })
     );
 
     window.dispatchEvent(new Event("storage"));
+
+    window.location.href = "/";
   };
 
   return (

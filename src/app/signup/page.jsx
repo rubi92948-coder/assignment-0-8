@@ -35,8 +35,29 @@ export default function SignUpPage() {
         password,
       });
 
-      if (error) return;
+      if (error) {
+        console.log(error);
+        return;
+      }
 
+      // ✅ IMPORTANT: cookie for proxy protection
+      document.cookie = "token=user-token; path=/; max-age=86400";
+
+      // ✅ navbar sync (UI state)
+      localStorage.setItem("token", "user-token");
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email,
+          image: null,
+        })
+      );
+
+      // ✅ update navbar instantly
+      window.dispatchEvent(new Event("storage"));
+
+      // ✅ redirect after signup
       router.push("/");
     } catch (err) {
       console.log(err);
@@ -65,7 +86,7 @@ export default function SignUpPage() {
           <FieldError />
         </TextField>
 
-        {/* PASSWORD WITH TOGGLE */}
+        {/* PASSWORD */}
         <TextField isRequired>
           <Label className="text-purple-700">Password</Label>
 

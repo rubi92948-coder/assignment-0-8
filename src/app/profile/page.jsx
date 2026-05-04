@@ -18,10 +18,10 @@ const ProfilePage = () => {
     );
   }
 
-  // ✅ যদি user না থাকে → redirect
-  if (!user) {
-    redirect("/signin");
-  }
+  // // ✅ যদি user না থাকে → redirect
+  // if (!user) {
+  //   redirect("/signin");
+  // }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">

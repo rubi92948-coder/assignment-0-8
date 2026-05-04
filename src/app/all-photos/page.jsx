@@ -1,29 +1,24 @@
 import Category from "@/components/Category";
-import PhotoCard from "@/components/PhotoCard";
+import PhotoList from "@/components/PhotoList";
 
-const AllPhotosPage = async ({searchParams}) => {
-    const {category} = await searchParams;
-    console.log(category)
-    const res = await fetch('https://assignment-0-8-ne31.vercel.app/data.json')
-    const photos = await res.json()
+const AllPhotosPage = async ({ searchParams }) => {
+  const { category } = await searchParams;
 
-    const filteredPhotos = category ? photos.filter(photo => photo.category.toLowerCase() == category.toLowerCase()) : photos
+  const res = await fetch(
+    "https://assignment-0-8-ne31.vercel.app/data.json"
+  );
+  const photos = await res.json();
 
+  return (
+    <div>
+      <h1 className="text-2xl font-bold m-4">All Photos</h1>
 
-    return (
-        <div>
+      <Category />
 
-            <h1 className="text-2xl font-bold m-4">All Photos</h1>
-
-            <Category/>
-
-            <div className="grid grid-cols-4 gap-5">
-                {filteredPhotos.map(photo=> <PhotoCard key={photo.id} photo={photo}/>)}
-            </div>
-
-            
-        </div>
-    );
+      {/* CLIENT COMPONENT */}
+      <PhotoList photos={photos} category={category} />
+    </div>
+  );
 };
 
 export default AllPhotosPage;

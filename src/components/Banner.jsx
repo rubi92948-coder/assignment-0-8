@@ -59,7 +59,7 @@ export default function Banner() {
           </p>
 
           <Link
-            href="/books"
+            href="/all-photos"
             style={{
               marginTop: "20px",
               display: "inline-block",
