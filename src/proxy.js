@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export function proxy(request) {
   const token = request.cookies.get("token")?.value;
 
-  const path = request.nextUrl?.pathname || ""; // 🔥 SAFE FIX
+  const path = request.nextUrl?.pathname || ""; 
 
   const protectedRoutes = ["/profile", "/all-photos"];
 
